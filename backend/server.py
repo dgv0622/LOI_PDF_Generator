@@ -102,6 +102,34 @@ async def get_status_checks():
     
     return status_checks
 
+@api_router.post("/generate-pdf")
+async def generate_pdf(form_data: LOIFormData):
+    """
+    Generate PDF from Letter of Intent form data
+    """
+    try:
+        # Convert pydantic model to dict
+        data_dict = form_data.model_dump()
+        
+        # Generate PDF
+        pdf_bytes = generate_loi_pdf(data_dict)
+        
+        # Create a filename based on date
+        date_str = form_data.date.replace('-', '_') if form_data.date else 'document'
+        filename = f"Letter_of_Intent_{date_str}.pdf"
+        
+        # Return PDF as streaming response
+        return StreamingResponse(
+            BytesIO(pdf_bytes),
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f"attachment; filename={filename}"
+            }
+        )
+    except Exception as e:
+        logger.error(f"Error generating PDF: {str(e)}")
+        return {"error": f"Failed to generate PDF: {str(e)}"}
+
 # Include the router in the main app
 app.include_router(api_router)
 
