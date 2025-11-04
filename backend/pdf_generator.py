@@ -221,11 +221,15 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     elements.append(Paragraph("Sincerely,", body_style))
     elements.append(Spacer(1, 0.3 * inch))
     
-    buyer_sig = f"""<b>{get_value('buyerName', '[Buyer\\'s Name / Entity]')}</b><br/><br/>
+    buyer_name_sig = get_value('buyerName', "[Buyer's Name / Entity]")
+    buyer_auth = get_value('buyerAuthorizedSigner', '[Authorized Signer]')
+    buyer_title_sig = get_value('buyerTitle', '[Title if applicable]')
+    date_sig = get_value('date', '[Insert Date]')
+    buyer_sig = f"""<b>{buyer_name_sig}</b><br/><br/>
     By: ___________________________<br/>
-    Name: {get_value('buyerAuthorizedSigner', '[Authorized Signer]')}<br/>
-    Title: {get_value('buyerTitle', '[Title if applicable]')}<br/>
-    Date: {get_value('date', '[Insert Date]')}"""
+    Name: {buyer_auth}<br/>
+    Title: {buyer_title_sig}<br/>
+    Date: {date_sig}"""
     elements.append(Paragraph(buyer_sig, body_style))
     
     elements.append(Spacer(1, 0.4 * inch))
@@ -234,11 +238,14 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     elements.append(Paragraph("<b>Acknowledged and Agreed:</b>", body_style))
     elements.append(Spacer(1, 0.1 * inch))
     
-    seller_sig = f"""<b>{get_value('sellerName', '[Seller\\'s Name / Entity]')}</b><br/><br/>
+    seller_name_sig = get_value('sellerName', "[Seller's Name / Entity]")
+    seller_auth = get_value('sellerAuthorizedSigner', '[Authorized Signer]')
+    seller_title_sig = get_value('sellerTitle', '[Title if applicable]')
+    seller_sig = f"""<b>{seller_name_sig}</b><br/><br/>
     By: ___________________________<br/>
-    Name: {get_value('sellerAuthorizedSigner', '[Authorized Signer]')}<br/>
-    Title: {get_value('sellerTitle', '[Title if applicable]')}<br/>
-    Date: {get_value('date', '[Insert Date]')}"""
+    Name: {seller_auth}<br/>
+    Title: {seller_title_sig}<br/>
+    Date: {date_sig}"""
     elements.append(Paragraph(seller_sig, body_style))
     
     # Build PDF
