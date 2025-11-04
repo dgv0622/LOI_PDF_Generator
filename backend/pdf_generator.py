@@ -81,15 +81,19 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     elements.append(Spacer(1, 0.2 * inch))
     
     # To: Section
-    to_text = f"<b>To:</b><br/>{get_value('sellerName', '[Seller\\'s Name]')}"
+    seller_name = get_value('sellerName', "[Seller's Name]")
+    seller_address = get_value('sellerAddress', "[Seller's Address]")
+    to_text = f"<b>To:</b><br/>{seller_name}"
     if form_data.get('sellerCompany'):
         to_text += f"<br/>{get_value('sellerCompany')}"
-    to_text += f"<br/>{get_value('sellerAddress', '[Seller\\'s Address]')}"
+    to_text += f"<br/>{seller_address}"
     elements.append(Paragraph(to_text, body_style))
     elements.append(Spacer(1, 0.2 * inch))
     
     # From: Section
-    from_text = f"<b>From:</b><br/>{get_value('buyerName', '[Buyer\\'s Name / Entity]')}<br/>{get_value('buyerAddress', '[Buyer\\'s Address]')}"
+    buyer_name = get_value('buyerName', "[Buyer's Name / Entity]")
+    buyer_address = get_value('buyerAddress', "[Buyer's Address]")
+    from_text = f"<b>From:</b><br/>{buyer_name}<br/>{buyer_address}"
     elements.append(Paragraph(from_text, body_style))
     elements.append(Spacer(1, 0.2 * inch))
     
