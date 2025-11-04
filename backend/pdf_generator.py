@@ -105,9 +105,12 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     
     # 1. Introduction
     elements.append(Paragraph("1. Introduction", heading_style))
+    buyer_entity = get_value('buyerName', '[Buyer Name / Entity]')
+    property_addr = get_value('propertyAddress', '[Property Address]')
+    seller_entity = get_value('sellerName', '[Seller Name]')
     intro_text = f"""This Letter of Intent ("LOI") sets forth the general terms and conditions under which 
-    {get_value('buyerName', '[Buyer Name / Entity]')} ("Buyer") proposes to purchase the property commonly known as 
-    {get_value('propertyAddress', '[Property Address]')} (the "Property") from {get_value('sellerName', '[Seller Name]')} 
+    {buyer_entity} ("Buyer") proposes to purchase the property commonly known as 
+    {property_addr} (the "Property") from {seller_entity} 
     ("Seller"). The terms below are intended solely as a basis for further negotiation and are not intended to be 
     binding upon either party except as specifically noted."""
     elements.append(Paragraph(intro_text, body_style))
