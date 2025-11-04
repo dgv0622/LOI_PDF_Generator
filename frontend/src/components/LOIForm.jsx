@@ -50,7 +50,7 @@ const LOIForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     // Validate required fields
     const requiredFields = ['date', 'sellerName', 'buyerName', 'propertyAddress', 'purchasePrice'];
     const missingFields = requiredFields.filter(field => !formData[field]);
@@ -64,11 +64,49 @@ const LOIForm = () => {
       return;
     }
 
-    // This will be implemented with actual PDF generation
-    toast({
-      title: "PDF Generation",
-      description: "PDF download functionality will be implemented in backend integration",
-    });
+    try {
+      // Send request to backend to generate PDF
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/generate-pdf`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF');
+      }
+
+      // Get the PDF blob
+      const blob = await response.blob();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const dateStr = formData.date.replace(/-/g, '_');
+      a.download = `Letter_of_Intent_${dateStr}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      
+      toast({
+        title: "Success",
+        description: "PDF downloaded successfully!",
+      });
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate PDF. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const togglePreview = () => {
