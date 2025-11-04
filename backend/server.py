@@ -40,6 +40,39 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+class LOIFormData(BaseModel):
+    date: str
+    sellerName: str
+    sellerCompany: Optional[str] = ""
+    sellerAddress: str = ""
+    buyerName: str
+    buyerAddress: str = ""
+    propertyName: Optional[str] = ""
+    propertyAddress: str
+    propertyDescription: str = ""
+    propertyType: str = ""
+    purchasePrice: str
+    acquisitionType: str = ""
+    depositAmount: str = ""
+    escrowAgent: str = ""
+    depositDays: str = ""
+    dueDiligenceDays: str = ""
+    closingDays: str = ""
+    financingContingent: str = ""
+    financingType: str = ""
+    contingencies: str = ""
+    buyerBroker: str = ""
+    buyerBrokerFirm: str = ""
+    buyerBrokerLicense: str = ""
+    sellerBroker: str = ""
+    sellerBrokerFirm: str = ""
+    sellerBrokerLicense: str = ""
+    expirationDate: str = ""
+    buyerAuthorizedSigner: str = ""
+    buyerTitle: str = ""
+    sellerAuthorizedSigner: str = ""
+    sellerTitle: str = ""
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
