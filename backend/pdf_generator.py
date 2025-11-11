@@ -215,33 +215,33 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     agreed Purchase and Sale Agreement."""
     elements.append(Paragraph(non_binding_text, body_style))
     
-    elements.append(Spacer(1, 0.4 * inch))
+    elements.append(Spacer(1, 0.2 * inch))
     
     # Signature Section - Buyer
     elements.append(Paragraph("Sincerely,", body_style))
-    elements.append(Spacer(1, 0.3 * inch))
+    elements.append(Spacer(1, 0.15 * inch))
     
     buyer_name_sig = get_value('buyerName', "[Buyer's Name / Entity]")
     buyer_auth = get_value('buyerAuthorizedSigner', '[Authorized Signer]')
     buyer_title_sig = get_value('buyerTitle', '[Title if applicable]')
     date_sig = get_value('date', '[Insert Date]')
-    buyer_sig = f"""<b>{buyer_name_sig}</b><br/><br/>
+    buyer_sig = f"""<b>{buyer_name_sig}</b><br/>
     By: ___________________________<br/>
     Name: {buyer_auth}<br/>
     Title: {buyer_title_sig}<br/>
     Date: {date_sig}"""
     elements.append(Paragraph(buyer_sig, body_style))
     
-    elements.append(Spacer(1, 0.4 * inch))
+    elements.append(Spacer(1, 0.2 * inch))
     
     # Signature Section - Seller
     elements.append(Paragraph("<b>Acknowledged and Agreed:</b>", body_style))
-    elements.append(Spacer(1, 0.1 * inch))
+    elements.append(Spacer(1, 0.05 * inch))
     
     seller_name_sig = get_value('sellerName', "[Seller's Name / Entity]")
     seller_auth = get_value('sellerAuthorizedSigner', '[Authorized Signer]')
     seller_title_sig = get_value('sellerTitle', '[Title if applicable]')
-    seller_sig = f"""<b>{seller_name_sig}</b><br/><br/>
+    seller_sig = f"""<b>{seller_name_sig}</b><br/>
     By: ___________________________<br/>
     Name: {seller_auth}<br/>
     Title: {seller_title_sig}<br/>
