@@ -19,14 +19,14 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     """
     buffer = BytesIO()
     
-    # Create the PDF document
+    # Create the PDF document with reduced margins for compact layout
     doc = SimpleDocTemplate(
         buffer,
         pagesize=letter,
-        rightMargin=72,
-        leftMargin=72,
-        topMargin=72,
-        bottomMargin=72
+        rightMargin=60,
+        leftMargin=60,
+        topMargin=50,
+        bottomMargin=50
     )
     
     # Container for the 'Flowable' objects
