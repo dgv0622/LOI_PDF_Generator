@@ -35,13 +35,13 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     # Define styles
     styles = getSampleStyleSheet()
     
-    # Custom styles for legal document
+    # Custom styles for legal document - optimized for 3 pages
     title_style = ParagraphStyle(
         'CustomTitle',
         parent=styles['Heading1'],
-        fontSize=16,
+        fontSize=14,
         textColor='black',
-        spaceAfter=30,
+        spaceAfter=16,
         alignment=TA_CENTER,
         fontName='Times-Bold'
     )
@@ -49,22 +49,22 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     heading_style = ParagraphStyle(
         'CustomHeading',
         parent=styles['Heading2'],
-        fontSize=12,
+        fontSize=11,
         textColor='black',
-        spaceAfter=12,
-        spaceBefore=12,
+        spaceAfter=6,
+        spaceBefore=8,
         fontName='Times-Bold'
     )
     
     body_style = ParagraphStyle(
         'CustomBody',
         parent=styles['BodyText'],
-        fontSize=11,
+        fontSize=10,
         textColor='black',
         alignment=TA_JUSTIFY,
-        spaceAfter=12,
+        spaceAfter=6,
         fontName='Times-Roman',
-        leading=16
+        leading=13
     )
     
     # Helper function to get value or placeholder
