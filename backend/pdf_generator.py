@@ -74,11 +74,11 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     
     # Title
     elements.append(Paragraph("Letter of Intent to Purchase Real Property", title_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # Date
     elements.append(Paragraph(get_value('date', '[Date]'), body_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # To: Section
     seller_name = get_value('sellerName', "[Seller's Name]")
@@ -88,20 +88,20 @@ def generate_loi_pdf(form_data: dict) -> bytes:
         to_text += f"<br/>{get_value('sellerCompany')}"
     to_text += f"<br/>{seller_address}"
     elements.append(Paragraph(to_text, body_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # From: Section
     buyer_name = get_value('buyerName', "[Buyer's Name / Entity]")
     buyer_address = get_value('buyerAddress', "[Buyer's Address]")
     from_text = f"<b>From:</b><br/>{buyer_name}<br/>{buyer_address}"
     elements.append(Paragraph(from_text, body_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # Re: Section
     property_ref = get_value('propertyName') if form_data.get('propertyName') else get_value('propertyAddress', '[Property Name or Address]')
     re_text = f"<b>Re:</b> Letter of Intent to Purchase {property_ref}"
     elements.append(Paragraph(re_text, body_style))
-    elements.append(Spacer(1, 0.3 * inch))
+    elements.append(Spacer(1, 0.15 * inch))
     
     # 1. Introduction
     elements.append(Paragraph("1. Introduction", heading_style))
