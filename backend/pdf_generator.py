@@ -19,14 +19,14 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     """
     buffer = BytesIO()
     
-    # Create the PDF document
+    # Create the PDF document with reduced margins for compact layout
     doc = SimpleDocTemplate(
         buffer,
         pagesize=letter,
-        rightMargin=72,
-        leftMargin=72,
-        topMargin=72,
-        bottomMargin=72
+        rightMargin=60,
+        leftMargin=60,
+        topMargin=50,
+        bottomMargin=50
     )
     
     # Container for the 'Flowable' objects
@@ -35,13 +35,13 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     # Define styles
     styles = getSampleStyleSheet()
     
-    # Custom styles for legal document
+    # Custom styles for legal document - optimized for 3 pages
     title_style = ParagraphStyle(
         'CustomTitle',
         parent=styles['Heading1'],
-        fontSize=16,
+        fontSize=14,
         textColor='black',
-        spaceAfter=30,
+        spaceAfter=16,
         alignment=TA_CENTER,
         fontName='Times-Bold'
     )
@@ -49,22 +49,22 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     heading_style = ParagraphStyle(
         'CustomHeading',
         parent=styles['Heading2'],
-        fontSize=12,
+        fontSize=11,
         textColor='black',
-        spaceAfter=12,
-        spaceBefore=12,
+        spaceAfter=6,
+        spaceBefore=8,
         fontName='Times-Bold'
     )
     
     body_style = ParagraphStyle(
         'CustomBody',
         parent=styles['BodyText'],
-        fontSize=11,
+        fontSize=10,
         textColor='black',
         alignment=TA_JUSTIFY,
-        spaceAfter=12,
+        spaceAfter=6,
         fontName='Times-Roman',
-        leading=16
+        leading=13
     )
     
     # Helper function to get value or placeholder
@@ -74,11 +74,11 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     
     # Title
     elements.append(Paragraph("Letter of Intent to Purchase Real Property", title_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # Date
     elements.append(Paragraph(get_value('date', '[Date]'), body_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # To: Section
     seller_name = get_value('sellerName', "[Seller's Name]")
@@ -88,20 +88,20 @@ def generate_loi_pdf(form_data: dict) -> bytes:
         to_text += f"<br/>{get_value('sellerCompany')}"
     to_text += f"<br/>{seller_address}"
     elements.append(Paragraph(to_text, body_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # From: Section
     buyer_name = get_value('buyerName', "[Buyer's Name / Entity]")
     buyer_address = get_value('buyerAddress', "[Buyer's Address]")
     from_text = f"<b>From:</b><br/>{buyer_name}<br/>{buyer_address}"
     elements.append(Paragraph(from_text, body_style))
-    elements.append(Spacer(1, 0.2 * inch))
+    elements.append(Spacer(1, 0.1 * inch))
     
     # Re: Section
     property_ref = get_value('propertyName') if form_data.get('propertyName') else get_value('propertyAddress', '[Property Name or Address]')
     re_text = f"<b>Re:</b> Letter of Intent to Purchase {property_ref}"
     elements.append(Paragraph(re_text, body_style))
-    elements.append(Spacer(1, 0.3 * inch))
+    elements.append(Spacer(1, 0.15 * inch))
     
     # 1. Introduction
     elements.append(Paragraph("1. Introduction", heading_style))
@@ -215,33 +215,33 @@ def generate_loi_pdf(form_data: dict) -> bytes:
     agreed Purchase and Sale Agreement."""
     elements.append(Paragraph(non_binding_text, body_style))
     
-    elements.append(Spacer(1, 0.4 * inch))
+    elements.append(Spacer(1, 0.2 * inch))
     
     # Signature Section - Buyer
     elements.append(Paragraph("Sincerely,", body_style))
-    elements.append(Spacer(1, 0.3 * inch))
+    elements.append(Spacer(1, 0.15 * inch))
     
     buyer_name_sig = get_value('buyerName', "[Buyer's Name / Entity]")
     buyer_auth = get_value('buyerAuthorizedSigner', '[Authorized Signer]')
     buyer_title_sig = get_value('buyerTitle', '[Title if applicable]')
     date_sig = get_value('date', '[Insert Date]')
-    buyer_sig = f"""<b>{buyer_name_sig}</b><br/><br/>
+    buyer_sig = f"""<b>{buyer_name_sig}</b><br/>
     By: ___________________________<br/>
     Name: {buyer_auth}<br/>
     Title: {buyer_title_sig}<br/>
     Date: {date_sig}"""
     elements.append(Paragraph(buyer_sig, body_style))
     
-    elements.append(Spacer(1, 0.4 * inch))
+    elements.append(Spacer(1, 0.2 * inch))
     
     # Signature Section - Seller
     elements.append(Paragraph("<b>Acknowledged and Agreed:</b>", body_style))
-    elements.append(Spacer(1, 0.1 * inch))
+    elements.append(Spacer(1, 0.05 * inch))
     
     seller_name_sig = get_value('sellerName', "[Seller's Name / Entity]")
     seller_auth = get_value('sellerAuthorizedSigner', '[Authorized Signer]')
     seller_title_sig = get_value('sellerTitle', '[Title if applicable]')
-    seller_sig = f"""<b>{seller_name_sig}</b><br/><br/>
+    seller_sig = f"""<b>{seller_name_sig}</b><br/>
     By: ___________________________<br/>
     Name: {seller_auth}<br/>
     Title: {seller_title_sig}<br/>
