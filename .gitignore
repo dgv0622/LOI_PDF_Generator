@@ -61,6 +61,12 @@ chainlit.md
 # Deployment
 .vercel
 
+# Cloudflare
+.wrangler/
+.dev.vars
+wrangler.toml.local
+.mf/
+
 # Data and databases
 agenthub/agents/youtube/db
 

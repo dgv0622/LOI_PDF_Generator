@@ -65,9 +65,9 @@ const LOIForm = () => {
     }
 
     try {
-      // Send request to backend to generate PDF
-      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-      const response = await fetch(`${BACKEND_URL}/api/generate-pdf`, {
+      // Send request to Cloudflare Functions to generate PDF
+      // Use relative path - works locally with wrangler dev and in production
+      const response = await fetch('/api/generate-pdf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
